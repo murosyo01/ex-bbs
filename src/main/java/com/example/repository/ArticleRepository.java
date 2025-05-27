@@ -83,4 +83,28 @@ public class ArticleRepository {
 
         template.update(sql, param);
     }
+
+    public List<Article> joinFindAll() {
+        String sql = """
+                SELECT
+                     a.id,
+                     a.name,
+                     a.content,
+                     c.id,
+                     c.name,
+                     c.content,
+                     c.article_id
+                 FROM
+                     articles AS a
+                 LEFT OUTER JOIN
+                     comments AS c
+                 ON
+                     a.id = c.article_id
+                 ORDER BY
+                    a.id DESC,
+                    c.article_id DESC
+                 ;
+                """;
+        return template.query(sql, ARTICLE_ROW_MAPPER);
+    }
 }

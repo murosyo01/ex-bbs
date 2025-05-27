@@ -29,7 +29,7 @@ public class CommentRepository {
     private NamedParameterJdbcTemplate template;
 
     /**
-     * 記事IDからコメントのリストを検索する
+     * 記事IDからコメントのリストを検索する.
      *
      * @param articleId 記事ID
      * @return コメントリスト

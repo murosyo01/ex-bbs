@@ -9,6 +9,8 @@ import com.example.repository.CommentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.util.List;
 
 /**
- * 記事に対する指示を行うコントローラー
+ * 記事に対する指示を行うコントローラー.
  */
 @Controller
 @RequestMapping("/ex-bbs")
@@ -32,10 +34,10 @@ public class ArticleController {
      * 画面を表示.
      *
      * @param model モデル
-     * @return ex-bbs.html
+     * @return 掲示板画面
      */
     @GetMapping("")
-    public String index(Model model) {
+    public String index(ArticleForm articleForm, CommentForm commentForm, Model model) {
         List<Article> articleList = articleRepository.findAll();
 
         for (Article article : articleList) {
@@ -44,11 +46,20 @@ public class ArticleController {
         }
 
         model.addAttribute("articleList", articleList);
-        model.addAttribute("articleForm", new ArticleForm());
-        model.addAttribute("commentForm", new CommentForm());
 
         return "ex-bbs";
     }
+
+//    @GetMapping("/index2")
+//    public String index2(ArticleForm articleForm, CommentForm commentForm, Model model) {
+//        List<Article> articleList = articleRepository.joinFindAll();
+//
+//        System.out.println(articleList);
+//
+//        model.addAttribute("articleList", articleList);
+//
+//        return "ex-bbs";
+//    }
 
     /**
      * 記事を挿入する.
@@ -57,8 +68,11 @@ public class ArticleController {
      * @return indexメソッドが定義されているエントリーポイント
      */
     @PostMapping("/insertArticle")
-    public String insertArticle(ArticleForm articleForm) {
+    public String insertArticle(@Validated ArticleForm articleForm, BindingResult result, CommentForm commentForm, Model model) {
         System.out.println("insertArticle");
+        if (result.hasErrors()) {
+            return index(articleForm, commentForm, model);
+        }
         Article article = new Article();
         article.setName(articleForm.getName());
         article.setContent(articleForm.getContent());
@@ -76,8 +90,11 @@ public class ArticleController {
      * @return indexメソッドが定義されているエントリーポイント
      */
     @PostMapping("/insertComment")
-    public String insertComment(CommentForm commentForm, Model model) {
+    public String insertComment(@Validated CommentForm commentForm, BindingResult result, ArticleForm articleForm, Model model) {
         System.out.println("insertComment");
+        if (result.hasErrors()) {
+            return index(articleForm, commentForm, model);
+        }
         Comment comment = new Comment();
         comment.setName(commentForm.getName());
         comment.setContent(commentForm.getContent());
