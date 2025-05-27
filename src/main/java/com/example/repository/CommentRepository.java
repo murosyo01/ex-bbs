@@ -17,7 +17,7 @@ public class CommentRepository {
         comment.setId(rs.getInt("id"));
         comment.setName(rs.getString("name"));
         comment.setContent(rs.getString("content"));
-        comment.setArticleId(rs.getInt("articleId"));
+        comment.setArticleId(rs.getInt("article_id"));
 
         return comment;
     };
@@ -38,6 +38,8 @@ public class CommentRepository {
                     comments
                 WHERE
                     article_id = :articleId
+                ORDER BY
+                    id DESC
                 ;
                 """;
 
