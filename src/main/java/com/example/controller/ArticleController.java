@@ -63,21 +63,18 @@ public class ArticleController {
         comment.setContent(commentForm.getContent());
         comment.setArticleId(Integer.valueOf(commentForm.getArticleId()));
 
-
         commentRepository.insert(comment);
 
         return "redirect:/ex-bbs";
     }
 
     @PostMapping("/deleteArticle")
-    public String deleteArticle(ArticleForm articleForm, Model model){
+    public String deleteArticle(String articleId, Model model){
         System.out.println("deleteArticle");
-        return "redirect:/ex-bbs";
-    }
 
-    @PostMapping("/deleteComment")
-    public String deleteComment(CommentForm commentForm, Model model){
-        System.out.println("deleteComment");
+        commentRepository.deleteByArticleId(Integer.parseInt(articleId));
+        articleRepository.deleteById(Integer.parseInt(articleId));
+
         return "redirect:/ex-bbs";
     }
 }
