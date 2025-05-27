@@ -10,6 +10,9 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+/**
+ * コメントを操作するリポジトリ.
+ */
 @Repository
 public class CommentRepository {
     private static final RowMapper<Comment> COMMENT_ROW_MAPPER = (rs, i) -> {
@@ -27,10 +30,11 @@ public class CommentRepository {
 
     /**
      * 記事IDからコメントのリストを検索する
+     *
      * @param articleId 記事ID
      * @return コメントリスト
      */
-    public List<Comment> findByArticleId(int articleId){
+    public List<Comment> findByArticleId(int articleId) {
         String sql = """
                 SELECT
                     id, name, content, article_id
@@ -50,9 +54,10 @@ public class CommentRepository {
 
     /**
      * コメントをcommentsテーブルに挿入する.
+     *
      * @param comment コメントオブジェクト
      */
-    public void insert(Comment comment){
+    public void insert(Comment comment) {
         String sql = """
                 INSERT INTO comments
                     (name, content, article_id)
@@ -67,9 +72,10 @@ public class CommentRepository {
 
     /**
      * 記事IDに基づいてcommentsテーブルからコメントオブジェクトを削除する.
+     *
      * @param articleId 記事ID
      */
-    public void deleteByArticleId(int articleId){
+    public void deleteByArticleId(int articleId) {
         String sql = """
                 DELETE FROM comments
                 WHERE

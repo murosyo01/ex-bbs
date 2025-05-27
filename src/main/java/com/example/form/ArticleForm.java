@@ -1,5 +1,8 @@
 package com.example.form;
 
+/**
+ * 記事情報を受け取るフォーム
+ */
 public class ArticleForm {
     /**
      * 名前

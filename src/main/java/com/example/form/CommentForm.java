@@ -1,5 +1,8 @@
 package com.example.form;
 
+/**
+ * コメント情報を受け取るフォーム
+ */
 public class CommentForm {
     /**
      * 記事ID

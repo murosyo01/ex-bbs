@@ -8,10 +8,12 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 
-import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 記事を操作するリポジトリ.
+ */
 @Repository
 public class ArticleRepository {
     private static final RowMapper<Article> ARTICLE_ROW_MAPPER = (rs, i) -> {
@@ -21,7 +23,7 @@ public class ArticleRepository {
         article.setContent(rs.getString("content"));
         article.setCommentList(new ArrayList<>());
 
-        return  article;
+        return article;
     };
 
     @Autowired
@@ -29,9 +31,10 @@ public class ArticleRepository {
 
     /**
      * 記事のリストを全件検索する.
+     *
      * @return 記事のリスト
      */
-    public List<Article> findAll(){
+    public List<Article> findAll() {
         String sql = """
                 SELECT
                     id, name, content
@@ -46,9 +49,10 @@ public class ArticleRepository {
 
     /**
      * 記事を追加する.
+     *
      * @param article 記事オブジェクト
      */
-    public void insert(Article article){
+    public void insert(Article article) {
         String sql = """
                 INSERT INTO articles
                     (name, content)
@@ -64,9 +68,10 @@ public class ArticleRepository {
 
     /**
      * 記事を削除する.
+     *
      * @param id 記事ID
      */
-    public void deleteById(int id){
+    public void deleteById(int id) {
         String sql = """
                 DELETE FROM articles
                 WHERE
